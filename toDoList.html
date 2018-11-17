@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script type="text/javascript">
+	var app = angular.module("toDoList",[]);
+	app.controller("toDoController",function($scope){
+		$scope.tasks = [];
+		$scope.errorMessage = "";
+		$scope.addNewTask = function(){
+			$scope.errorMessage = "";
+			if($scope.tasks.indexOf($scope.newTask) == -1){
+				$scope.tasks.push($scope.newTask);
+				$scope.newTask = "";
+			}
+			else{
+				$scope.errorMessage = "Task already in list";
+			}
+		};
+		$scope.removeTask = function($index){
+			$scope.tasks.splice($index,1);
+		}
+		$scope.clearTasks = function(){
+			$scope.tasks.splice(0,$scope.tasks.length);
+		}
+	});
+</script>
+<body>
+<div ng-app="toDoList" ng-controller="toDoController">
+{{ tasks.length }} items remaining<br>
+<span ng-repeat="task in tasks">
+<input type="checkbox" ng-click = "removeTask($index)" />	{{ task }}<br>
+</span>
+<input type="text" ng-model="newTask" />
+<input type="button" value = "Add" ng-click="addNewTask()" /><input type="button" value="Clear" ng-click="clearTasks()" /><br>
+<p ng-bind="errorMessage"></p>
+</div>
+</body>
+</html>
